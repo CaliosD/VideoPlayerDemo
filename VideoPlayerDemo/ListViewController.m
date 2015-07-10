@@ -34,7 +34,6 @@
     [_playerController didMoveToParentViewController:self];
 
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kScreenSize.height/3, kScreenSize.width, kScreenSize.height - kScreenSize.height/3) style:UITableViewStylePlain];
-    _tableView.backgroundColor = [UIColor redColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:self.tableView];
