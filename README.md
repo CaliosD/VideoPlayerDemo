@@ -5,11 +5,12 @@
 
 - ~~PlayerView.~~
 - ~~Loading progress view.~~
-- Play & pause.
-- Caption.
+- ~~Play & pause.~~
+- Buffer indicator.
+- ~~Caption.~~
 - Zoom in & out.
-- Touch move to control playing progress.
-- Touch up & down to control volume.
+- ~~Touch move to control playing progress.~~
+- ~~Touch up & down to control volume.~~
 - Orientation.
 - Tableview cell select and play corresponding track.
 - More...

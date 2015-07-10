@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) AVPlayer *player;
 
+- (void)setVideoFillMode:(NSString *)fillMode;
+
 @end

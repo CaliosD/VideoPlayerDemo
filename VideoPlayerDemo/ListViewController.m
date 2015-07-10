@@ -43,6 +43,10 @@
                                              selector:@selector(orientationChanged:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:[UIDevice currentDevice]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(forceRotate:)
+                                                 name:DPlayerViewControllerForceRotateKey
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,15 +83,34 @@
 #pragma mark - Orientation
 - (void)orientationChanged:(NSNotification *)notif
 {
-    UIDevice *device = notif.object;
-    if (device.orientation == UIInterfaceOrientationLandscapeLeft || device.orientation == UIInterfaceOrientationLandscapeRight) {
-        _tableView.hidden = YES;
-        [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height)];
-    }else if (device.orientation == UIInterfaceOrientationPortrait){
-        _tableView.hidden = NO;
-        [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height/3 + 64)];
+    if ([notif.object isKindOfClass:[UIDevice class]]) {
+        UIDevice *device = notif.object;
+        if (device.orientation == UIInterfaceOrientationLandscapeLeft || device.orientation == UIInterfaceOrientationLandscapeRight) {
+            _tableView.hidden = YES;
+            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height)];
+        }else if (device.orientation == UIInterfaceOrientationPortrait){
+            _tableView.hidden = NO;
+            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height/3 + 64)];
+        }
+        [_playerController.view updateConstraints];
     }
-    [_playerController.view updateConstraints];
+
+}
+
+- (void)forceRotate:(NSNotification *)notif
+{
+    if ([notif.object isKindOfClass:[NSNumber class]]) {
+        BOOL isPortrait = [(NSNumber *)notif.object boolValue];
+        if (isPortrait) {
+//            _tableView.hidden = YES;
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+//            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.height, kScreenSize.width)];
+        }else{
+//            _tableView.hidden = NO;
+//            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height/3 + 64)];
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+        }
+    }
 }
 
 @end

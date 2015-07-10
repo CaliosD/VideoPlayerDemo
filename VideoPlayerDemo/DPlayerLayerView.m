@@ -26,4 +26,9 @@
     [(AVPlayerLayer *)[self layer] setPlayer:player];
 }
 
+- (void)setVideoFillMode:(NSString *)fillMode
+{
+    AVPlayerLayer *playerLayer = (AVPlayerLayer *)[self layer];
+    playerLayer.videoGravity = fillMode;
+}
 @end

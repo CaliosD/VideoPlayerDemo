@@ -7,14 +7,15 @@
 //
 
 #import "DPlayerView.h"
+#import <MediaPlayer/MediaPlayer.h>
 #import <MBProgressHUD.h>
 #import <PureLayout.h>
 
 #import "Constant.h"    // Set it as a changable property.
+#import "DUtility.h"
 
 
-
-@interface DPlayerView ()
+@interface DPlayerView ()<MBProgressHUDDelegate>
 
 @property (nonatomic, strong) UIActivityIndicatorView      *activityIndicator;
 
@@ -23,8 +24,6 @@
 @property (nonatomic, strong) UIButton                     *doneButton;
 
 @property (nonatomic, strong) UIView                       *bottomControlOverlay;
-@property (nonatomic, strong) UIButton                     *fullscreenButton;
-@property (nonatomic, strong) UIButton                     *captionButton;
 
 @property (nonatomic, strong) UIView                       *middleControlOverLay;
 @property (nonatomic, strong) UIButton                     *bigPlayButton;
@@ -32,11 +31,9 @@
 
 @property (nonatomic, assign) BOOL                         isControlsEnabled;
 @property (nonatomic, assign) BOOL                         isControlsHidden;
-@property (nonatomic, assign) BOOL                         isPlayButtonSelected;
 @property (nonatomic, assign) CGPoint                      startPoint;
-//@property (nonatomic, weak) id<VKVideoPlayerGestureDelegate> gestureDelegate;
-@property (nonatomic, strong) MBProgressHUD                *mbProgress;
-
+@property (nonatomic, assign) float                        seekTime;
+@property (nonatomic, assign) float                        currentTime;
 
 @end
 
@@ -50,11 +47,10 @@
         
         [self initTopControl];
         
-        [self initMiddleControl];
-        
         [self initBottomControl];
         
-        [self.currentTime addObserver:self forKeyPath:@"currentTime" options:0 context:CurrentTimeContext];
+        [self initMiddleControl];
+        
     }
     return self;
 }
@@ -64,7 +60,7 @@
     self.backgroundColor = [UIColor whiteColor];
     _isControlsEnabled = YES;
     _isControlsHidden = YES;
-
+    
     [self setNeedsUpdateConstraints];
 }
 
@@ -104,16 +100,31 @@
 //    _middleControlOverLay.backgroundColor = [UIColor clearColor];
 //    [self addSubview:_middleControlOverLay];
     
-    _bigPlayButton = [UIButton newAutoLayoutView];
-    [_bigPlayButton setImage:[UIImage imageNamed:@"VKVideoPlayer_pause_big"] forState:UIControlStateNormal];
-    [_bigPlayButton setImage:[UIImage imageNamed:@"VKVideoPlayer_play_big"] forState:UIControlStateSelected];
-    [_bigPlayButton addTarget:self action:@selector(playButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_bigPlayButton];
+//    _bigPlayButton = [UIButton newAutoLayoutView];
+//    [_bigPlayButton setImage:[UIImage imageNamed:@"VKVideoPlayer_pause_big"] forState:UIControlStateNormal];
+//    [_bigPlayButton setImage:[UIImage imageNamed:@"VKVideoPlayer_play_big"] forState:UIControlStateSelected];
+//    [_bigPlayButton addTarget:self action:@selector(playButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+//    [self addSubview:_bigPlayButton];
+
+    _mbProgress = [[MBProgressHUD alloc]init];
+    _mbProgress.delegate = self;
+    _mbProgress.mode = MBProgressHUDModeCustomView;
+    [self addSubview:_mbProgress];
     
-//    _volumeSlider = [UISlider newAutoLayoutView];
-//    _volumeSlider.transform = CGAffineTransformMakeRotation(-M_PI_2);
-//    _volumeSlider.backgroundColor = [UIColor blueColor];
-//    [_middleControlOverLay addSubview:_volumeSlider];
+    _indicatorView = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+    _indicatorView.color = [UIColor blueColor];
+    _indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [self addSubview:_indicatorView];
+    
+    MPVolumeView *volumeView = [[MPVolumeView alloc]init];
+    self.volumeSlider = nil;
+    for (UIView *view in volumeView.subviews) {
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]) {
+            self.volumeSlider = (UISlider *)view;
+            break;
+        }
+    }
+    
 }
 
 - (void)initBottomControl
@@ -131,12 +142,14 @@
     UIGraphicsEndImageContext();
     [_scrubber setMinimumTrackImage:transparentImage forState:UIControlStateNormal];
     [_scrubber setMaximumTrackImage:transparentImage forState:UIControlStateNormal];
+    [_scrubber addTarget:self action:@selector(scrubberDidBegin) forControlEvents:UIControlEventTouchDown];
     [_scrubber addTarget:self action:@selector(scrubberValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [_scrubber addTarget:self action:@selector(scrubberDidEnd) forControlEvents: (UIControlEventTouchUpInside | UIControlEventTouchCancel)];
     [_bottomControlOverlay addSubview:_scrubber];
     
     _playButton = [UIButton newAutoLayoutView];
-    [_playButton setImage:[UIImage imageNamed:@"VKVideoPlayer_pause"] forState:UIControlStateNormal];
-    [_playButton setImage:[UIImage imageNamed:@"VKVideoPlayer_play"] forState:UIControlStateSelected];
+    [_playButton setImage:[UIImage imageNamed:@"VKVideoPlayer_play"] forState:UIControlStateNormal];
+    [_playButton setImage:[UIImage imageNamed:@"VKVideoPlayer_pause"] forState:UIControlStateSelected];
     [_playButton addTarget:self action:@selector(playButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [_bottomControlOverlay addSubview:_playButton];
     
@@ -147,17 +160,16 @@
     
     _currentTimeLabel = [UILabel newAutoLayoutView];
     _currentTimeLabel.textColor = [UIColor whiteColor];
-    _currentTimeLabel.text = [NSString stringWithFormat:@"%@/",_currentTime];
     [_bottomControlOverlay addSubview:_currentTimeLabel];
 
     _totalTimeLabel = [UILabel newAutoLayoutView];
     _totalTimeLabel.textColor = [UIColor whiteColor];
-    _totalTimeLabel.text = _totalTime;
     [_bottomControlOverlay addSubview:_totalTimeLabel];
     
     _captionButton = [UIButton newAutoLayoutView];
     [_captionButton setTitle:@"字幕" forState:UIControlStateNormal];
     [_captionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_captionButton addTarget:self action:@selector(captionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [_bottomControlOverlay addSubview:_captionButton];
     
     _fullscreenButton = [UIButton newAutoLayoutView];
@@ -222,13 +234,16 @@
     /**
      *  Middle control
      */
+//    [_mbProgress autoSetDimensionsToSize:CGSizeMake(30, 30)];
+//    [_mbProgress autoCenterInSuperview];
+    
 //    [_middleControlOverLay autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:_topControlOverlay];
 //    [_middleControlOverLay autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:_bottomControlOverlay];
 //    [_middleControlOverLay autoPinEdgeToSuperviewEdge:ALEdgeLeft];
 //    [_middleControlOverLay autoPinEdgeToSuperviewEdge:ALEdgeRight];
     
-    [_bigPlayButton autoSetDimensionsToSize:CGSizeMake(74, 74)];
-    [_bigPlayButton autoCenterInSuperview];
+//    [_bigPlayButton autoSetDimensionsToSize:CGSizeMake(74, 74)];
+//    [_bigPlayButton autoCenterInSuperview];
     
 //    [_volumeSlider autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(10, 10, 10, 0) excludingEdge:ALEdgeRight];
 //    [_volumeSlider autoSetDimension:ALDimensionWidth toSize:10.0];
@@ -243,19 +258,28 @@
     [self.delegate doneButtonPressed];
 }
 
+- (void)scrubberDidBegin
+{
+    [self.delegate scrubberDidBegin];
+}
+
 - (void)scrubberValueChanged:(UISlider *)sender
 {
-    [self.delegate scrubberValueChanged:sender];
+    [self.delegate scrubberValueChangedWithSeekTime:sender.value];
+}
+
+- (void)scrubberDidEnd
+{
+    [self.delegate scrubberDidEnd];
 }
 
 - (void)playButtonPressed
 {
+    _playButton.selected = !_playButton.selected;
     if (_playButton.selected) {
         [self.delegate playButtonPressed];
-        self.isPlayButtonSelected = NO;
     }else{
         [self.delegate pauseButtonPressed];
-        self.isPlayButtonSelected = YES;
     }
 }
 
@@ -264,10 +288,15 @@
     [self.delegate nextButtonPressed];
 }
 
+- (void)captionButtonPressed
+{
+    [self.delegate captionButtonPressed];
+}
+
 - (void)fullscreenButtonPressed
 {
     _fullscreenButton.selected = !_fullscreenButton.selected;
-    [self.delegate fullscreenButtonPressed];
+    [self.delegate fullscreenButtonPressed:_fullscreenButton.isSelected];
 }
 
 - (void)singleTapPlayView
@@ -298,20 +327,22 @@
         [self touchesCancelled:touches withEvent:event];
     }
     _startPoint = [touch locationInView:self];
+    _currentTime = self.scrubber.value;
+    _seekTime = self.scrubber.value;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    self.mbProgress.alpha = 1.f;
-    
     for (UITouch *touch in touches.allObjects) {
         CGPoint curPoint = [touch locationInView:self];
         CGPoint prePoint = [touch previousLocationInView:self];
         if (fabs(curPoint.y - _startPoint.y) > fabs(curPoint.x - _startPoint.x)) {
+            [self.mbProgress hide:YES];
             float deltaY = curPoint.y - prePoint.y;
             [self.mbProgress hide:YES];
             [self changeVolumeWithDelta:deltaY];
         }else{
+            [self.mbProgress show:YES];
             if (self.bigPlayButton.hidden == NO) {
                 self.bigPlayButton.hidden = YES;
             }
@@ -324,13 +355,17 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
+    [self.mbProgress hide:YES];
+    [self.delegate playButtonPressed];
+    [self.delegate scrubberValueChangedWithSeekTime:_seekTime];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
 }
+
+#pragma mark - Private
 
 - (void)changeVolumeWithDelta:(float)d
 {
@@ -339,15 +374,24 @@
         systemVolume = self.volumeSlider.value;
     }
     systemVolume -= d/50;
-//    NSLog(@"volume: %f",systemVolume);
     [self.volumeSlider setValue:systemVolume animated:YES];
 }
 
 - (void)updateMBProgressWithDelta:(float)delta andForward:(BOOL)isForward
 {
-    self.mbProgress.customView = isForward ? [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"afterward"]] : [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"previous"]];
-//    _seekTime = [self.gestureDelegate updateMBProgressWithCurrent:_currentTime andDelta:delta];
-//    [self updateTimeLabels];
+    UIImageView *forwardImgView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"afterward"]];
+    forwardImgView.frame = CGRectMake(0, 0, kNavigationBarHeight, kNavigationBarHeight);
+    UIImageView *previousImgView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"previous"]];
+    previousImgView.frame = CGRectMake(0, 0, kNavigationBarHeight, kNavigationBarHeight);
+    self.mbProgress.customView = isForward ? forwardImgView : previousImgView;
+    _seekTime = [self.delegate updateMBProgressWithCurrent:_currentTime andDelta:delta];
+    [self updateTimeLabels];
+}
+
+- (void)updateTimeLabels
+{
+    _currentTimeLabel.text = [DSharedUtility timeStringFromSecondsValue:_scrubber.value];
+    _totalTimeLabel.text = [DSharedUtility timeStringFromSecondsValue:_scrubber.maximumValue];
 }
 
 @end

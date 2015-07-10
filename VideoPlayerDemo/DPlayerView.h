@@ -15,27 +15,42 @@ static void *CurrentTimeContext = &CurrentTimeContext;
 
 @protocol DPlayerViewDelegate <NSObject>
 
+/**
+ *  Actions
+ */
 - (void)doneButtonPressed;
-- (void)scrubberValueChanged:(UISlider *)sender;
+- (void)scrubberDidBegin;
+- (void)scrubberValueChangedWithSeekTime:(float)seekTime;
+- (void)scrubberDidEnd;
 - (void)playButtonPressed;
 - (void)pauseButtonPressed;
 - (void)nextButtonPressed;
-- (void)fullscreenButtonPressed;
+- (void)captionButtonPressed;
+- (void)fullscreenButtonPressed:(BOOL)isPortrait;
+
+/**
+ *  Touches
+ */
+- (float)updateMBProgressWithCurrent:(float)current andDelta:(float)delta;
 
 @end
 
 @interface DPlayerView : UIView
 
-@property (nonatomic, strong) DPlayerLayerView *playerLayerView;
-@property (nonatomic, strong) UISlider         *scrubber;
-@property (nonatomic, strong) UIProgressView   *loadProgress;
-@property (nonatomic, strong) UIButton         *playButton;
-@property (nonatomic, strong) UIButton         *nextButton;
-@property (nonatomic, strong) UILabel          *currentTimeLabel;
-@property (nonatomic, strong) UILabel          *totalTimeLabel;
+@property (nonatomic, strong) DPlayerLayerView        *playerLayerView;
+@property (nonatomic, strong) UISlider                *scrubber;
+@property (nonatomic, strong) UIProgressView          *loadProgress;
+@property (nonatomic, strong) UIButton                *playButton;
+@property (nonatomic, strong) UIButton                *nextButton;
+@property (nonatomic, strong) UILabel                 *currentTimeLabel;
+@property (nonatomic, strong) UILabel                 *totalTimeLabel;
+@property (nonatomic, strong) UIButton                *captionButton;
+@property (nonatomic, strong) UIButton                *fullscreenButton;
 
-@property (nonatomic, strong) id<DPlayerViewDelegate> delegate;
-@property (nonatomic, strong) NSString         *currentTime;
-@property (nonatomic, strong) NSString         *totalTime;
+
+@property (nonatomic, strong) MBProgressHUD           *mbProgress;
+@property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
+
+@property (nonatomic, strong) id<DPlayerViewDelegate    > delegate;
 
 @end

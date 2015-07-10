@@ -12,18 +12,24 @@ PODS:
   - CocoaLumberjack/Extensions (2.0.1):
     - CocoaLumberjack/Default
   - MBProgressHUD (0.9.1)
+  - PKYStepper (0.0.1)
   - PureLayout (2.0.6)
+  - WYPopoverController (0.2.2)
 
 DEPENDENCIES:
   - CocoaHTTPServer
   - MBProgressHUD (~> 0.9.1)
+  - PKYStepper (~> 0.0.1)
   - PureLayout
+  - WYPopoverController (~> 0.2.0)
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
   CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  PKYStepper: 8dacefbddf9fa2b6aaec2ef828b46a78daa2db7d
   PureLayout: f25f0bb904d5ccfe6e31da3cb869185259f02e0d
+  WYPopoverController: 00d879c25bddd1fd873dcc21aa98c8308d7f1555
 
 COCOAPODS: 0.37.2
