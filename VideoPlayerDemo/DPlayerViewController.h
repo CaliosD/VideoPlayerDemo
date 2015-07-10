@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-#define DPlayerViewControllerForceRotateKey  @"DPlayerViewControllerForceRotateKey"
-
 @interface DPlayerViewController : UIViewController
 
 @property (nonatomic, assign) BOOL isFullScreen;

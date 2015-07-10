@@ -43,10 +43,11 @@
                                              selector:@selector(orientationChanged:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:[UIDevice currentDevice]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(forceRotate:)
-                                                 name:DPlayerViewControllerForceRotateKey
-                                               object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -95,22 +96,6 @@
         [_playerController.view updateConstraints];
     }
 
-}
-
-- (void)forceRotate:(NSNotification *)notif
-{
-    if ([notif.object isKindOfClass:[NSNumber class]]) {
-        BOOL isPortrait = [(NSNumber *)notif.object boolValue];
-        if (isPortrait) {
-//            _tableView.hidden = YES;
-            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-//            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.height, kScreenSize.width)];
-        }else{
-//            _tableView.hidden = NO;
-//            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height/3 + 64)];
-            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
-        }
-    }
 }
 
 @end

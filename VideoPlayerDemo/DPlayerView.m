@@ -173,6 +173,7 @@
     [_bottomControlOverlay addSubview:_captionButton];
     
     _fullscreenButton = [UIButton newAutoLayoutView];
+    NSLog(@"======> full %d",_fullscreenButton.selected);
     [_fullscreenButton setImage:[UIImage imageNamed:@"VKVideoPlayer_zoom_in"] forState:UIControlStateNormal];
     [_fullscreenButton setImage:[UIImage imageNamed:@"VKVideoPlayer_zoom_out"] forState:UIControlStateSelected];
     [_fullscreenButton addTarget:self action:@selector(fullscreenButtonPressed) forControlEvents:UIControlEventTouchUpInside];

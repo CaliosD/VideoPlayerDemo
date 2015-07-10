@@ -54,11 +54,6 @@ static void *ItemStatusContext = &ItemStatusContext;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view = _playerView;
-//    if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
-//        self.playerView.captionButton.hidden = NO;
-//    }else{
-//        self.playerView.captionButton.hidden = YES;
-//    }
     
     [self loadAssetFromFile:nil];
 }
@@ -70,6 +65,7 @@ static void *ItemStatusContext = &ItemStatusContext;
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.player removeObserver:self forKeyPath:@"rate"];
     [self.player.currentItem removeObserver:self forKeyPath:@"status"];
     
@@ -79,9 +75,10 @@ static void *ItemStatusContext = &ItemStatusContext;
 #pragma mark - DPlayerViewDelegate
 - (void)doneButtonPressed
 {
-    NSLog(@"===> close vc");
     if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
-        // TODO: force rotate to portrait.(0709)
+        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
+    }else{
+        NSLog(@"===> close vc");
     }
 }
 
@@ -145,16 +142,11 @@ static void *ItemStatusContext = &ItemStatusContext;
 
 - (void)fullscreenButtonPressed:(BOOL)isPortrait
 {
-//    if (isPortrait) {
-//        self.playerView.transform = CGAffineTransformMakeRotation(M_PI_2);
-//        self.playerView.frame = CGRectMake(0, 0, 568, 320);
-//        [self.playerView.playerLayerView setVideoFillMode:AVLayerVideoGravityResizeAspectFill];
-//
-//    }
-    // TODO: force rotate. (0709)
-    _isFullScreen = self.playerView.fullscreenButton.isSelected;
-    [[NSNotificationCenter defaultCenter] postNotificationName:DPlayerViewControllerForceRotateKey
-                                                        object:[NSNumber numberWithBool:_isFullScreen]];
+    /**
+     *  http://stackoverflow.com/questions/12650137/how-to-change-the-device-orientation-programmatically-in-ios-6 (Calios: can't tell how desperately it saved me.)
+     */
+    UIInterfaceOrientation orientation = isPortrait ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationPortrait;
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:orientation] forKey:@"orientation"];
 }
 
 - (float)updateMBProgressWithCurrent:(float)current andDelta:(float)delta
@@ -250,6 +242,7 @@ static void *ItemStatusContext = &ItemStatusContext;
                 self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
                 [self.playerView.playerLayerView setPlayer:self.player];
                 self.playerView.playButton.selected = YES;
+                self.playerView.fullscreenButton.selected = NO;
                 [self.player play];
             }else{
                 if (!self.playerView.indicatorView.isAnimating) {
