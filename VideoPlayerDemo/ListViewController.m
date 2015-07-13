@@ -77,7 +77,7 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
 }
 
 #pragma mark - Orientation
@@ -87,10 +87,10 @@
         UIDevice *device = notif.object;
         if (device.orientation == UIInterfaceOrientationLandscapeLeft || device.orientation == UIInterfaceOrientationLandscapeRight) {
             _tableView.hidden = YES;
-            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height)];
+            [_playerController setFrame:CGRectMake(0, 0, MAX(kScreenSize.width, kScreenSize.height),MIN(kScreenSize.width, kScreenSize.height))];
         }else if (device.orientation == UIInterfaceOrientationPortrait){
             _tableView.hidden = NO;
-            [_playerController setFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height/3 + 64)];
+            [_playerController setFrame:CGRectMake(0, 0, MIN(kScreenSize.width,kScreenSize.height), MAX(kScreenSize.height, kScreenSize.width)/3)];
         }
         [_playerController.view updateConstraints];
     }

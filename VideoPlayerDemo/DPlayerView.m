@@ -173,7 +173,6 @@
     [_bottomControlOverlay addSubview:_captionButton];
     
     _fullscreenButton = [UIButton newAutoLayoutView];
-    NSLog(@"======> full %d",_fullscreenButton.selected);
     [_fullscreenButton setImage:[UIImage imageNamed:@"VKVideoPlayer_zoom_in"] forState:UIControlStateNormal];
     [_fullscreenButton setImage:[UIImage imageNamed:@"VKVideoPlayer_zoom_out"] forState:UIControlStateSelected];
     [_fullscreenButton addTarget:self action:@selector(fullscreenButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -201,7 +200,7 @@
     /**
      *  Bottom control
      */
-    [_bottomControlOverlay autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 64, 0) excludingEdge:ALEdgeTop];
+    [_bottomControlOverlay autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeTop];
     [_bottomControlOverlay autoSetDimension:ALDimensionHeight toSize:(kNavigationBarHeight + kStatusBarHeight)];
     
     [_loadProgress autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(10, 0, 0, 0) excludingEdge:ALEdgeBottom];
