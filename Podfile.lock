@@ -14,14 +14,23 @@ PODS:
   - MBProgressHUD (0.9.1)
   - PKYStepper (0.0.1)
   - PureLayout (2.0.6)
-  - WYPopoverController (0.2.2)
+  - WYPopoverController (0.3.8)
 
 DEPENDENCIES:
   - CocoaHTTPServer
   - MBProgressHUD (~> 0.9.1)
   - PKYStepper (~> 0.0.1)
   - PureLayout
-  - WYPopoverController (~> 0.2.0)
+  - WYPopoverController (from `https://github.com/sammcewan/WYPopoverController.git`)
+
+EXTERNAL SOURCES:
+  WYPopoverController:
+    :git: https://github.com/sammcewan/WYPopoverController.git
+
+CHECKOUT OPTIONS:
+  WYPopoverController:
+    :commit: f8e3881f124ff90012d5be31e903c4467d5541ef
+    :git: https://github.com/sammcewan/WYPopoverController.git
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
@@ -30,6 +39,6 @@ SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   PKYStepper: 8dacefbddf9fa2b6aaec2ef828b46a78daa2db7d
   PureLayout: f25f0bb904d5ccfe6e31da3cb869185259f02e0d
-  WYPopoverController: 00d879c25bddd1fd873dcc21aa98c8308d7f1555
+  WYPopoverController: dda54780e1bef186464ae5a10ab9b4998c279e89
 
 COCOAPODS: 0.37.2
