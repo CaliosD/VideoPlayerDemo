@@ -7,7 +7,8 @@
 - ~~Loading progress view.~~
 - ~~Play & pause.~~
 - Buffer indicator.
-- ~~Caption.~~
+- ~~Caption button action.~~
+- Caption interaction with super controller.
 - ~~Zoom in & out.~~
 - ~~Touch move to control playing progress.~~
 - ~~Touch up & down to control volume.~~
