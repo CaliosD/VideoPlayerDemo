@@ -13,5 +13,5 @@
 - ~~Touch move to control playing progress.~~
 - ~~Touch up & down to control volume.~~
 - ~~Orientation.~~
-- Tableview cell select and play corresponding track.
+- ~~Tableview cell select and play corresponding track.~~
 - More...
