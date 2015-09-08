@@ -69,6 +69,7 @@
 - (void)initPlayerLayer
 {
     _playerLayerView = [DPlayerLayerView newAutoLayoutView];
+    [_playerLayerView setVideoFillMode:AVLayerVideoGravityResizeAspectFill];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapPlayView)];
     tapGesture.numberOfTapsRequired = 1;
     tapGesture.numberOfTouchesRequired = 1;
@@ -170,6 +171,7 @@
     [_captionButton setTitle:@"字幕" forState:UIControlStateNormal];
     [_captionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_captionButton addTarget:self action:@selector(captionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    _captionButton.hidden = YES;
     [_bottomControlOverlay addSubview:_captionButton];
     
     _fullscreenButton = [UIButton newAutoLayoutView];

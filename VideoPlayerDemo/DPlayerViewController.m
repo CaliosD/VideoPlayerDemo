@@ -7,7 +7,6 @@
 //
 
 #import "DPlayerViewController.h"
-#import "DPlayerView.h"
 #import "DUtility.h"
 #import "Constant.h"
 #import <WYPopoverController.h>
@@ -17,18 +16,18 @@ static void *ItemStatusContext = &ItemStatusContext;
 
 @interface DPlayerViewController ()<DPlayerViewDelegate,WYPopoverControllerDelegate>
 
-@property (nonatomic, strong) AVPlayer       *player;
 @property (nonatomic, strong) AVPlayerItem   *playerItem;
 @property (nonatomic, strong) NSURL          *url;
 
-
-@property (nonatomic, strong) DPlayerView    *playerView;
 @property (nonatomic, strong) WYPopoverController *captionPopover;
 @property (nonatomic, strong) CaptionViewController *captionViewController;
 
 @property (nonatomic, strong) NSString       *totalTime;
 @property (nonatomic, strong) id             playbackTimeObserver;
-//@property (nonatomic, strong) NSString       *currentTime;
+@property (nonatomic, strong) NSString       *currentTime;
+
+@property (nonatomic, strong) NSArray *urlArray;
+@property (nonatomic, assign) NSInteger currentIndex;
 
 @end
 
@@ -41,6 +40,7 @@ static void *ItemStatusContext = &ItemStatusContext;
         _playerView = [[DPlayerView alloc]initWithFrame:frame];
         _playerView.delegate = self;
         _isFullScreen = NO;
+        _currentIndex = 1;
     }
     return self;
 }
@@ -53,9 +53,16 @@ static void *ItemStatusContext = &ItemStatusContext;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view = _playerView;
     
-    [self loadAssetFromFile:nil];
+    _urlArray = @[@"http://mov.bn.netease.com/open-movie/nos/mp4/2015/09/06/SB1T622RF_sd.mp4",
+                  @"http://mov.bn.netease.com/open-movie/nos/mp4/2015/09/06/SB1T1Q6JG_sd.mp4",
+                  @"http://mov.bn.netease.com/open-movie/nos/mp4/2013/07/19/S937IJ6GU_sd.mp4",
+                  @"http://v.stu.126.net/mooc-video/nos/mp4/2015/05/08/1534082_sd.mp4?key=6c41d0758a2adcb750df19fc676e233e992f14081da5a13ef55f55c91f6195acfb712b3978ccfb86ed7bd969c6d0c4f8c67828585d0e00dce9fbf66689cf9ff13389d1e4d0884757973a81a0fd01ce17fbc78293fd295082129821b9aafff760ac2d80000c602942fa4509942b9285fbe88c01d51083d19b7f37bb90ce91f584ff95aee726907876d470c935a98ed296b407c478a81499a24006d50e873b5912",
+                  @"http://mov.bn.netease.com/movie/2012/12/4/U/S8H1PGF4U.mp4",
+                  @"http://v.stu.126.net/mooc-video/nos/mp4/2015/05/08/1534082_sd.mp4?key=6c41d0758a2adcb750df19fc676e233e992f14081da5a13ef55f55c91f6195acfb712b3978ccfb86ed7bd969c6d0c4f8c67828585d0e00dce9fbf66689cf9ff13389d1e4d0884757973a81a0fd01ce17fbc78293fd295082129821b9aafff760ac2d80000c602942fa4509942b9285fbe88c01d51083d19b7f37bb90ce91f584ff95aee726907876d470c935a98ed296b407c478a81499a24006d50e873b5912"];
+    
+    [self setupUI];
+//    [self loadAssetFromFile:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,6 +77,162 @@ static void *ItemStatusContext = &ItemStatusContext;
     [self.player.currentItem removeObserver:self forKeyPath:@"status"];
     
     [self.player pause];
+}
+
+#pragma mark - Private
+
+- (void)setupUI
+{
+    [self player];
+    [self.playerView.playerLayerView setPlayer:self.player];
+    self.playerView.playerLayerView.frame = self.playerView.frame;
+    self.playerView.playButton.selected = YES;
+    self.playerView.fullscreenButton.selected = NO;
+    
+    [self.view addSubview: _playerView];
+
+    [self.player play];
+}
+
+- (AVPlayer *)player
+{
+    if (!_player) {
+        AVPlayerItem *playerItem = [self getPlayItem:_currentIndex];
+        _player = [AVPlayer playerWithPlayerItem:playerItem];
+        [self addProgressObserver];
+        [self addObserverToPlayerItem:playerItem];
+    }
+    return _player;
+}
+
+/**
+ *  根据视频索引取得AVPlayerItem对象
+ *
+ *  @param videoIndex 视频顺序索引
+ *
+ *  @return AVPlayerItem对象
+ */
+-(AVPlayerItem *)getPlayItem:(NSInteger)videoIndex{
+    NSString *urlStr=[_urlArray objectAtIndex:videoIndex];
+    urlStr =[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url=[NSURL URLWithString:urlStr];
+    AVPlayerItem *playerItem=[AVPlayerItem playerItemWithURL:url];
+    return playerItem;
+}
+
+#pragma mark - 通知
+/**
+ *  添加播放器通知
+ */
+-(void)addNotification{
+    //给AVPlayerItem添加播放完成通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:self.player.currentItem];
+}
+
+-(void)removeNotification{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+/**
+ *  播放完成通知
+ *
+ *  @param notification 通知对象
+ */
+
+- (void)playerItemDidReachEnd:(NSNotification *)notif
+{
+    [self.player seekToTime:kCMTimeZero];
+    NSLog(@"视频播放完成.");
+}
+
+#pragma mark - 监控
+/**
+ *  给播放器添加进度更新
+ */
+-(void)addProgressObserver{
+    AVPlayerItem *playerItem=self.player.currentItem;
+    //这里设置每秒执行一次
+    __weak __typeof(self) weakself = self;
+    [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        float current=CMTimeGetSeconds(time);
+        float total=CMTimeGetSeconds([playerItem duration]);
+        NSLog(@"当前已经播放%.2fs.",current);
+        if (current > 0.0) {
+            [weakself updateVideoSliderAndCurrent:current];
+        }
+    }];
+}
+
+/**
+ *  给AVPlayerItem添加监控
+ *
+ *  @param playerItem AVPlayerItem对象
+ */
+-(void)addObserverToPlayerItem:(AVPlayerItem *)playerItem{
+    //监控状态属性，注意AVPlayer也有一个status属性，通过监控它的status也可以获得播放状态
+    [playerItem addObserver:self
+                 forKeyPath:@"status"
+                    options:NSKeyValueObservingOptionNew
+                    context:ItemStatusContext];
+    //监控网络加载情况属性
+    [playerItem addObserver:self
+                 forKeyPath:@"loadedTimeRanges"
+                    options:NSKeyValueObservingOptionNew
+                    context:nil];
+}
+
+-(void)removeObserverFromPlayerItem:(AVPlayerItem *)playerItem{
+    [playerItem removeObserver:self forKeyPath:@"status"];
+    [playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+}
+
+/**
+ *  通过KVO监控播放器状态
+ *
+ *  @param keyPath 监控属性
+ *  @param object  监视器
+ *  @param change  状态改变
+ *  @param context 上下文
+ */
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    AVPlayerItem *playerItem = (AVPlayerItem *)object;
+    if (context == ItemStatusContext && [keyPath isEqualToString:@"status"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self synStartButton];
+        });
+        if ([playerItem status] == AVPlayerStatusReadyToPlay) {
+            CMTime duration     = playerItem.duration;// 获取视频总长度
+            CGFloat totalSecond = playerItem.duration.value / playerItem.duration.timescale;// 转换成秒
+            _totalTime          = [self convertTime:totalSecond];// 转换成播放时间
+            [self.playerView.scrubber setMaximumValue:CMTimeGetSeconds(duration)];
+            self.playerView.currentTimeLabel.text = @"00:00/";
+            self.playerView.totalTimeLabel.text = _totalTime;
+//            [self monitoringPlayback:self.playerItem];// 监听播放状态
+        } else if ([playerItem status] == AVPlayerStatusFailed) {
+            NSLog(@"AVPlayerStatus failed");
+        } else{
+            NSLog(@"AVPlayerStatus unknown");
+        }
+    }
+    if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+        NSTimeInterval timeInterval = [self availableDuration]; // 计算缓冲进度
+        CMTime duration = playerItem.duration;
+        CGFloat totalDuration = CMTimeGetSeconds(duration);
+        NSLog(@"----- %f,%f",timeInterval,totalDuration);
+        [self.playerView.loadProgress setProgress:timeInterval/totalDuration animated:YES];
+    }
+    
+//        if ([keyPath isEqualToString:@"currentTime"]) {
+//            float currentSecond = [(NSNumber *)object floatValue];
+//            [self updateVideoSliderAndCurrent:currentSecondaddProgressObserver];
+//        }
 }
 
 #pragma mark - DPlayerViewDelegate
@@ -118,10 +281,20 @@ static void *ItemStatusContext = &ItemStatusContext;
 - (void)nextButtonPressed
 {
     if (self.player.currentItem) {
+        if (_currentIndex + 1 < _urlArray.count) {
+            _playerView.nextButton.enabled = YES;
+            [self navigationButtonClick:_currentIndex + 1];
+        }
+        else{
+            _playerView.nextButton.enabled = NO;
+        }
+//        NSLog(@"======> observedBitrate: %f",[(AVPlayerItemAccessLogEvent *)[self.playerItem.accessLog.events lastObject] observedBitrate]);
+//        NSLog(@"======> indicatedBitrate: %f",[(AVPlayerItemAccessLogEvent *)[self.playerItem.accessLog.events lastObject] indicatedBitrate]);
+//        NSLog(@"======> preferredPeakBitRate: %f",[self.playerItem preferredPeakBitRate]);
         
     }
 }
-
+/*
 - (void)captionButtonPressed
 {
     // Mock.
@@ -139,6 +312,7 @@ static void *ItemStatusContext = &ItemStatusContext;
     _captionPopover.delegate = self;
     [_captionPopover presentPopoverFromRect:_playerView.captionButton.bounds inView:_playerView.captionButton permittedArrowDirections:WYPopoverArrowDirectionDown animated:YES];
 }
+*/
 
 - (void)fullscreenButtonPressed:(BOOL)isPortrait
 {
@@ -163,11 +337,28 @@ static void *ItemStatusContext = &ItemStatusContext;
     NSString *totalTime = [DSharedUtility timeStringFromSecondsValue:(int)[self currentItemDuration]];
     self.playerView.mbProgress.labelText = [NSString stringWithFormat:@"%@/%@",currentTime,totalTime];
     [self.playerView.scrubber setValue:seekTime animated:YES];
-//    NSLog(@"mbprogress: %@, scrubber: %f",self.playerView.mbProgress.labelText,self.playerView.scrubber.value);
+    NSLog(@"mbprogress: %@, scrubber: %f",self.playerView.mbProgress.labelText,self.playerView.scrubber.value);
     
     return seekTime;
 }
 
+- (void)navigationButtonClick:(NSInteger)index {
+    _currentIndex = index;
+    _playerView.nextButton.enabled = (_currentIndex < _urlArray.count - 1) ? YES : NO;
+    
+    [self removeNotification];
+    [self removeObserverFromPlayerItem:self.player.currentItem];
+    AVPlayerItem *playerItem=[self getPlayItem:index];
+    [self addObserverToPlayerItem:playerItem];
+    //切换视频
+    [self.player replaceCurrentItemWithPlayerItem:playerItem];
+    [self addNotification];
+    [self.playerView.scrubber setValue:0.0 animated:YES];
+    self.playerView.currentTimeLabel.text = @"00:00/";
+    [self.playerView.loadProgress setProgress:0.0 animated:YES];
+}
+
+/*
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -210,6 +401,7 @@ static void *ItemStatusContext = &ItemStatusContext;
 
 - (void)loadAssetFromFile:(NSURL *)url
 {
+//    _url = [NSURL URLWithString:@"http://yinyueshiting.baidu.com/data2/music/123478978/109052117190800128.mp3?xcode=f1e669b4ee6f05e2b123be2e4a685e68"];
     _url = [NSURL URLWithString:@"http://devimages.apple.com/samplecode/adDemo/ad.m3u8"];
 //    _url = [NSURL URLWithString:@"http://v.stu.126.net/mooc-video/nos/mp4/2015/05/08/1534082_sd.mp4?key=6c41d0758a2adcb750df19fc676e233e992f14081da5a13ef55f55c91f6195acfb712b3978ccfb86ed7bd969c6d0c4f8c67828585d0e00dce9fbf66689cf9ff13389d1e4d0884757973a81a0fd01ce17fbc78293fd295082129821b9aafff760ac2d80000c602942fa4509942b9285fbe88c01d51083d19b7f37bb90ce91f584ff95aee726907876d470c935a98ed296b407c478a81499a24006d50e873b5912"];
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:_url options:nil];
@@ -227,18 +419,18 @@ static void *ItemStatusContext = &ItemStatusContext;
                 
                 self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
                 // ensure that this is done before the playerItem is associated with the player
-                [self.playerItem addObserver:self
-                                  forKeyPath:@"status"
-                                     options:NSKeyValueObservingOptionNew
-                                     context:ItemStatusContext];
-                [self.playerItem addObserver:self
-                                  forKeyPath:@"loadedTimeRanges"
-                                     options:NSKeyValueObservingOptionNew
-                                     context:nil];
-                [[NSNotificationCenter defaultCenter] addObserver:self
-                                                         selector:@selector(playerItemDidReachEnd:)
-                                                             name:AVPlayerItemDidPlayToEndTimeNotification
-                                                           object:self.playerItem];
+//                [self.playerItem addObserver:self
+//                                  forKeyPath:@"status"
+//                                     options:NSKeyValueObservingOptionNew
+//                                     context:ItemStatusContext];
+//                [self.playerItem addObserver:self
+//                                  forKeyPath:@"loadedTimeRanges"
+//                                     options:NSKeyValueObservingOptionNew
+//                                     context:nil];
+//                [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                         selector:@selector(playerItemDidReachEnd:)
+//                                                             name:AVPlayerItemDidPlayToEndTimeNotification
+//                                                           object:self.playerItem];
                 self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
                 [self.playerView.playerLayerView setPlayer:self.player];
                 self.playerView.playButton.selected = YES;
@@ -252,7 +444,7 @@ static void *ItemStatusContext = &ItemStatusContext;
         });
     }];
 }
-
+*/
 #pragma mark - Player
 
 - (void)synStartButton
@@ -266,7 +458,7 @@ static void *ItemStatusContext = &ItemStatusContext;
         self.playerView.playButton.selected = NO;
     }
 }
-
+/*
 - (void)monitoringPlayback:(AVPlayerItem *)playerItem {
     __weak __typeof(self) weakself = self;
     self.playbackTimeObserver = [self.playerView.playerLayerView.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
@@ -275,7 +467,7 @@ static void *ItemStatusContext = &ItemStatusContext;
         [weakself updateVideoSliderAndCurrent:currentSecond];
     }];
 }
-
+*/
 - (void)updateVideoSliderAndCurrent:(CGFloat)currentSecond
 {
     [self.playerView.scrubber setValue:currentSecond animated:YES];
@@ -283,15 +475,11 @@ static void *ItemStatusContext = &ItemStatusContext;
     self.playerView.currentTimeLabel.text = [NSString stringWithFormat:@"%@/",timeString];
 }
 
-- (void)playerItemDidReachEnd:(NSNotification *)notif
-{
-    [self.player seekToTime:kCMTimeZero];
-}
-
 #pragma mark - duration & time
 - (NSTimeInterval)availableDuration
 {
     NSArray *loadedTimeRanges = [[self.playerView.playerLayerView.player currentItem] loadedTimeRanges];
+    NSLog(@"rages : %@" ,loadedTimeRanges);
     CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue];    // 获取缓冲区域
     float startSeconds = CMTimeGetSeconds(timeRange.start);
     float durationSeconds = CMTimeGetSeconds(timeRange.duration);
