@@ -50,7 +50,6 @@
         [self initBottomControl];
         
         [self initMiddleControl];
-        
     }
     return self;
 }
@@ -70,6 +69,7 @@
 {
     _playerLayerView = [DPlayerLayerView newAutoLayoutView];
     [_playerLayerView setVideoFillMode:AVLayerVideoGravityResizeAspectFill];
+    _playerLayerView.backgroundColor = [UIColor blackColor];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapPlayView)];
     tapGesture.numberOfTapsRequired = 1;
     tapGesture.numberOfTouchesRequired = 1;
@@ -304,14 +304,14 @@
 - (void)singleTapPlayView
 {
     if (_isControlsHidden) {
-        [UIView animateWithDuration:0.9
+        [UIView animateWithDuration:0.5
                          animations:^{
                              _topControlOverlay.alpha = 0.f;
                              _bottomControlOverlay.alpha = 0.f;
         }];
         _isControlsHidden = NO;
     }else{
-        [UIView animateWithDuration:0.9
+        [UIView animateWithDuration:0.5
                          animations:^{
                              _topControlOverlay.alpha = 1.f;
                              _bottomControlOverlay.alpha = 1.f;
@@ -325,12 +325,18 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    if ([touch.view isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[UISlider class]]) {
+    
+    CGPoint point= [touch locationInView:self];
+    if (CGRectContainsPoint(_topControlOverlay.frame, point) || CGRectContainsPoint(_bottomControlOverlay.frame, point)) {
         [self touchesCancelled:touches withEvent:event];
     }
-    _startPoint = [touch locationInView:self];
-    _currentTime = self.scrubber.value;
-    _seekTime = self.scrubber.value;
+    else{
+        _startPoint = [touch locationInView:self];
+        _currentTime = self.scrubber.value;
+        _seekTime = self.scrubber.value;
+        
+        [self scrubberDidBegin];
+    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -360,11 +366,14 @@
     [self.mbProgress hide:YES];
     [self.delegate playButtonPressed];
     [self.delegate scrubberValueChangedWithSeekTime:_seekTime];
+    
+    [self scrubberDidEnd];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
+    [self.mbProgress hide:YES];
+    [self scrubberDidEnd];
 }
 
 #pragma mark - Private

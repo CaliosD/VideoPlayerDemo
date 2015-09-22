@@ -24,6 +24,8 @@ static void *CurrentTimeContext = &CurrentTimeContext;
 - (void)scrubberDidEnd;
 - (void)playButtonPressed;
 - (void)pauseButtonPressed;
+
+@optional
 - (void)nextButtonPressed;
 - (void)captionButtonPressed;
 - (void)fullscreenButtonPressed:(BOOL)isPortrait;
