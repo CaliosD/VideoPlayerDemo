@@ -16,9 +16,6 @@ static void *ItemStatusContext = &ItemStatusContext;
 
 @interface DPlayerViewController ()<DPlayerViewDelegate,WYPopoverControllerDelegate>
 
-@property (nonatomic, strong) AVPlayerItem          *playerItem;
-@property (nonatomic, strong) NSURL                 *url;
-
 @property (nonatomic, strong) WYPopoverController   *captionPopover;
 @property (nonatomic, strong) CaptionViewController *captionViewController;
 
@@ -112,7 +109,6 @@ static void *ItemStatusContext = &ItemStatusContext;
     if (!_player) {
         AVPlayerItem *playerItem = [self getPlayItem:_currentIndex];
         _player = [AVPlayer playerWithPlayerItem:playerItem];
-        NSLog(@"==== %ld",(long)_player.actionAtItemEnd);
         [self addProgressObserver];
         [self addObserverToPlayerItem:playerItem];
     }

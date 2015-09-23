@@ -16,7 +16,6 @@
 		EE07C2BE1B4A65E400EB922C /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE07C2BD1B4A65E400EB922C /* ListViewController.m */; };
 		EE0DB2B61B4A6A590069BACB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0DB2B51B4A6A590069BACB /* AVFoundation.framework */; };
 		EE0DB2BC1B4A6BCA0069BACB /* DPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0DB2BB1B4A6BCA0069BACB /* DPlayerView.m */; };
-		EE0DB2BF1B4A7C730069BACB /* DPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0DB2BE1B4A7C730069BACB /* DPlayerViewController.m */; };
 		EE0DB2C61B4A859D0069BACB /* DPlayerLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0DB2C51B4A859D0069BACB /* DPlayerLayerView.m */; };
 		EE0DB2DC1B4B7B1F0069BACB /* VKVideoPlayer_close.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0DB2C81B4B7B1F0069BACB /* VKVideoPlayer_close.png */; };
 		EE0DB2DD1B4B7B1F0069BACB /* VKVideoPlayer_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0DB2C91B4B7B1F0069BACB /* VKVideoPlayer_close@2x.png */; };
@@ -43,6 +42,7 @@
 		EE7871A41B4F634600210E2B /* CaptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7871A31B4F634600210E2B /* CaptionViewController.m */; };
 		EE8C3BDB1B4E1AB000DDFDA3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = EE8C3BDA1B4E1AB000DDFDA3 /* README.md */; };
 		EE8C3BDE1B4E5E1B00DDFDA3 /* DUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8C3BDD1B4E5E1B00DDFDA3 /* DUtility.m */; };
+		EEC5A5D41BB1635900014856 /* DPlayer2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */; settings = {ASSET_TAGS = (); }; };
 		F310F6D43A69EB2F89B045A6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7134B0C1ED7F550BAD6F8BF2 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -108,6 +108,8 @@
 		EE8C3BDA1B4E1AB000DDFDA3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EE8C3BDC1B4E5E1B00DDFDA3 /* DUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DUtility.h; sourceTree = "<group>"; };
 		EE8C3BDD1B4E5E1B00DDFDA3 /* DUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DUtility.m; sourceTree = "<group>"; };
+		EEC5A5D21BB1635900014856 /* DPlayer2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPlayer2ViewController.h; sourceTree = "<group>"; };
+		EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPlayer2ViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,8 @@
 				EE0DB2BB1B4A6BCA0069BACB /* DPlayerView.m */,
 				EE0DB2BD1B4A7C730069BACB /* DPlayerViewController.h */,
 				EE0DB2BE1B4A7C730069BACB /* DPlayerViewController.m */,
+				EEC5A5D21BB1635900014856 /* DPlayer2ViewController.h */,
+				EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */,
 				EE0DB2C41B4A859D0069BACB /* DPlayerLayerView.h */,
 				EE0DB2C51B4A859D0069BACB /* DPlayerLayerView.m */,
 				EE7871A21B4F634600210E2B /* CaptionViewController.h */,
@@ -415,8 +419,8 @@
 				EE7871A41B4F634600210E2B /* CaptionViewController.m in Sources */,
 				EE0DB2BC1B4A6BCA0069BACB /* DPlayerView.m in Sources */,
 				EE8C3BDE1B4E5E1B00DDFDA3 /* DUtility.m in Sources */,
-				EE0DB2BF1B4A7C730069BACB /* DPlayerViewController.m in Sources */,
 				EE07C2991B4A648500EB922C /* main.m in Sources */,
+				EEC5A5D41BB1635900014856 /* DPlayer2ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

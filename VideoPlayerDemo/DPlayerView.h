@@ -18,14 +18,14 @@ static void *CurrentTimeContext = &CurrentTimeContext;
 /**
  *  Actions
  */
-- (void)doneButtonPressed;
 - (void)scrubberDidBegin;
-- (void)scrubberValueChangedWithSeekTime:(float)seekTime;
+- (void)scrubberValueChangedWithSeekTime:(float)seekTime isSlider:(BOOL)isSlider;
 - (void)scrubberDidEnd;
 - (void)playButtonPressed;
 - (void)pauseButtonPressed;
 
 @optional
+- (void)doneButtonPressed;
 - (void)nextButtonPressed;
 - (void)captionButtonPressed;
 - (void)fullscreenButtonPressed:(BOOL)isPortrait;

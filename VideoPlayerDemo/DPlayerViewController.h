@@ -12,9 +12,12 @@
 
 @interface DPlayerViewController : UIViewController
 
-@property (nonatomic, strong) AVPlayer       *player;
-@property (nonatomic, strong) DPlayerView    *playerView;
-@property (nonatomic, assign) BOOL isFullScreen;
+@property (nonatomic, strong) AVPlayer     *player;
+@property (nonatomic, strong) AVPlayerItem *playerItem;
+@property (nonatomic, strong) NSURL        *url;
+@property (nonatomic, strong) DPlayerView  *playerView;
+@property (nonatomic, assign) BOOL         isFullScreen;
+
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)setFrame:(CGRect)frame;

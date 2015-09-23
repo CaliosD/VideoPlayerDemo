@@ -153,11 +153,11 @@
     [_playButton setImage:[UIImage imageNamed:@"VKVideoPlayer_pause"] forState:UIControlStateSelected];
     [_playButton addTarget:self action:@selector(playButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [_bottomControlOverlay addSubview:_playButton];
-    
-    _nextButton = [UIButton newAutoLayoutView];
-    [_nextButton setImage:[UIImage imageNamed:@"VKVideoPlayer_next"] forState:UIControlStateNormal];
-    [_nextButton addTarget:self action:@selector(nextButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [_bottomControlOverlay addSubview:_nextButton];
+//    
+//    _nextButton = [UIButton newAutoLayoutView];
+//    [_nextButton setImage:[UIImage imageNamed:@"VKVideoPlayer_next"] forState:UIControlStateNormal];
+//    [_nextButton addTarget:self action:@selector(nextButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+//    [_bottomControlOverlay addSubview:_nextButton];
     
     _currentTimeLabel = [UILabel newAutoLayoutView];
     _currentTimeLabel.textColor = [UIColor whiteColor];
@@ -210,8 +210,8 @@
     
     [_scrubber autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(-5, 0, 0, 0) excludingEdge:ALEdgeBottom];
 
-    NSArray *views = @[_playButton,_nextButton,_currentTimeLabel,_totalTimeLabel];
-    [@[_playButton,_nextButton] autoSetViewsDimensionsToSize:CGSizeMake(kNavigationBarHeight, kNavigationBarHeight)];
+    NSArray *views = @[_playButton,_currentTimeLabel,_totalTimeLabel];
+    [@[_playButton] autoSetViewsDimensionsToSize:CGSizeMake(kNavigationBarHeight, kNavigationBarHeight)];
     [@[_currentTimeLabel,_totalTimeLabel] autoSetViewsDimensionsToSize:CGSizeMake(kNavigationBarHeight + kStatusBarHeight,kNavigationBarHeight)];
     [[views firstObject] autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     UIView *previousView = nil;
@@ -267,7 +267,7 @@
 
 - (void)scrubberValueChanged:(UISlider *)sender
 {
-    [self.delegate scrubberValueChangedWithSeekTime:sender.value];
+    [self.delegate scrubberValueChangedWithSeekTime:sender.value isSlider:YES];
 }
 
 - (void)scrubberDidEnd
@@ -334,8 +334,6 @@
         _startPoint = [touch locationInView:self];
         _currentTime = self.scrubber.value;
         _seekTime = self.scrubber.value;
-        
-        [self scrubberDidBegin];
     }
 }
 
@@ -365,15 +363,13 @@
 {
     [self.mbProgress hide:YES];
     [self.delegate playButtonPressed];
-    [self.delegate scrubberValueChangedWithSeekTime:_seekTime];
-    
-    [self scrubberDidEnd];
+    [self.delegate scrubberValueChangedWithSeekTime:_seekTime isSlider:NO];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.mbProgress hide:YES];
-    [self scrubberDidEnd];
+//    [self scrubberDidEnd];
 }
 
 #pragma mark - Private
@@ -396,7 +392,7 @@
     previousImgView.frame = CGRectMake(0, 0, kNavigationBarHeight, kNavigationBarHeight);
     self.mbProgress.customView = isForward ? forwardImgView : previousImgView;
     _seekTime = [self.delegate updateMBProgressWithCurrent:_currentTime andDelta:delta];
-    [self updateTimeLabels];
+//    [self updateTimeLabels];
 }
 
 - (void)updateTimeLabels
