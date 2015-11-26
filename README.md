@@ -3,6 +3,8 @@
 
 ### To do list: ###
 
+---
+
 **Update by 11.26**
 
 - ~~Fix video playing unexpectly when view disappeared.~~
