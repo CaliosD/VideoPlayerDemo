@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "ListViewController.h"
+#import "RootViewController.h"
 
 @interface AppDelegate ()
 
@@ -23,9 +23,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    UIViewController *rootViewController = [[ListViewController alloc] init];
-//    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:rootViewController];
-    self.window.rootViewController = rootViewController;
+    UIViewController *rootViewController = [[RootViewController alloc] init];
+    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    self.window.rootViewController = navi;
     
     return YES;
 }

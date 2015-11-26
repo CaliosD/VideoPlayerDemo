@@ -26,9 +26,16 @@
     [(AVPlayerLayer *)[self layer] setPlayer:player];
 }
 
+// 指定video在player layer的bounds内如何显示。（默认是AVLayerVideoGravityResizeAspect）
+/* 可选项：
+ * AVLayerVideoGravityResizeAspect，保证宽高比，在layer的bounds内正常显示；
+ * AVLayerVideoGravityResizeAspectFill，保证宽高比，填充满layer的bounds；
+ * AVLayerVideoGravityResize，拉伸来填满layer的bounds。
+ */
 - (void)setVideoFillMode:(NSString *)fillMode
 {
     AVPlayerLayer *playerLayer = (AVPlayerLayer *)[self layer];
     playerLayer.videoGravity = fillMode;
 }
+
 @end

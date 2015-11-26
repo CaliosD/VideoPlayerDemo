@@ -14,7 +14,6 @@
 		EE07C2A71B4A648500EB922C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE07C2A51B4A648500EB922C /* LaunchScreen.xib */; };
 		EE07C2B31B4A648500EB922C /* VideoPlayerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE07C2B21B4A648500EB922C /* VideoPlayerDemoTests.m */; };
 		EE07C2BE1B4A65E400EB922C /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE07C2BD1B4A65E400EB922C /* ListViewController.m */; };
-		EE0DB2B61B4A6A590069BACB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0DB2B51B4A6A590069BACB /* AVFoundation.framework */; };
 		EE0DB2BC1B4A6BCA0069BACB /* DPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0DB2BB1B4A6BCA0069BACB /* DPlayerView.m */; };
 		EE0DB2C61B4A859D0069BACB /* DPlayerLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0DB2C51B4A859D0069BACB /* DPlayerLayerView.m */; };
 		EE0DB2DC1B4B7B1F0069BACB /* VKVideoPlayer_close.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0DB2C81B4B7B1F0069BACB /* VKVideoPlayer_close.png */; };
@@ -39,10 +38,18 @@
 		EE0DB2EF1B4B7B1F0069BACB /* VKVideoPlayer_zoom_out@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0DB2DB1B4B7B1F0069BACB /* VKVideoPlayer_zoom_out@2x.png */; };
 		EE0DB2F21B4BD67E0069BACB /* afterward.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0DB2F01B4BD67E0069BACB /* afterward.png */; };
 		EE0DB2F31B4BD67E0069BACB /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0DB2F11B4BD67E0069BACB /* previous.png */; };
+		EE4989DB1BFF011B00388F05 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4989DA1BFF011B00388F05 /* RootViewController.m */; };
+		EE4989DF1BFF023E00388F05 /* SecondListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4989DE1BFF023E00388F05 /* SecondListViewController.m */; };
+		EE60797C1C05A05D00C4AAA5 /* countdown_new.mov in Resources */ = {isa = PBXBuildFile; fileRef = EE60797B1C05A05D00C4AAA5 /* countdown_new.mov */; };
 		EE7871A41B4F634600210E2B /* CaptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7871A31B4F634600210E2B /* CaptionViewController.m */; };
 		EE8C3BDB1B4E1AB000DDFDA3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = EE8C3BDA1B4E1AB000DDFDA3 /* README.md */; };
 		EE8C3BDE1B4E5E1B00DDFDA3 /* DUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8C3BDD1B4E5E1B00DDFDA3 /* DUtility.m */; };
-		EEC5A5D41BB1635900014856 /* DPlayer2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */; settings = {ASSET_TAGS = (); }; };
+		EEC1228E1C0555C600DC1C4C /* SecondDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC1228D1C0555C600DC1C4C /* SecondDetailViewController.m */; };
+		EEC1228F1C05593D00DC1C4C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0DB2B51B4A6A590069BACB /* AVFoundation.framework */; };
+		EEC122911C05594400DC1C4C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEC122901C05594300DC1C4C /* AVKit.framework */; };
+		EEC5A5D41BB1635900014856 /* DPlayer2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */; };
+		EECA48B81C05898B00A89A19 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECA48B71C05898B00A89A19 /* Photos.framework */; };
+		EECA48BB1C0589FE00A89A19 /* SecondListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EECA48BA1C0589FE00A89A19 /* SecondListTableViewCell.m */; };
 		F310F6D43A69EB2F89B045A6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7134B0C1ED7F550BAD6F8BF2 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -103,13 +110,24 @@
 		EE0DB2DB1B4B7B1F0069BACB /* VKVideoPlayer_zoom_out@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VKVideoPlayer_zoom_out@2x.png"; sourceTree = "<group>"; };
 		EE0DB2F01B4BD67E0069BACB /* afterward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = afterward.png; sourceTree = "<group>"; };
 		EE0DB2F11B4BD67E0069BACB /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
+		EE4989D91BFF011B00388F05 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		EE4989DA1BFF011B00388F05 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		EE4989DD1BFF023E00388F05 /* SecondListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondListViewController.h; sourceTree = "<group>"; };
+		EE4989DE1BFF023E00388F05 /* SecondListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondListViewController.m; sourceTree = "<group>"; };
+		EE60797B1C05A05D00C4AAA5 /* countdown_new.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = countdown_new.mov; sourceTree = "<group>"; };
 		EE7871A21B4F634600210E2B /* CaptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptionViewController.h; sourceTree = "<group>"; };
 		EE7871A31B4F634600210E2B /* CaptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptionViewController.m; sourceTree = "<group>"; };
 		EE8C3BDA1B4E1AB000DDFDA3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EE8C3BDC1B4E5E1B00DDFDA3 /* DUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DUtility.h; sourceTree = "<group>"; };
 		EE8C3BDD1B4E5E1B00DDFDA3 /* DUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DUtility.m; sourceTree = "<group>"; };
+		EEC1228C1C0555C600DC1C4C /* SecondDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondDetailViewController.h; sourceTree = "<group>"; };
+		EEC1228D1C0555C600DC1C4C /* SecondDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondDetailViewController.m; sourceTree = "<group>"; };
+		EEC122901C05594300DC1C4C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		EEC5A5D21BB1635900014856 /* DPlayer2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPlayer2ViewController.h; sourceTree = "<group>"; };
 		EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPlayer2ViewController.m; sourceTree = "<group>"; };
+		EECA48B71C05898B00A89A19 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		EECA48B91C0589FE00A89A19 /* SecondListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondListTableViewCell.h; sourceTree = "<group>"; };
+		EECA48BA1C0589FE00A89A19 /* SecondListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondListTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +135,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE0DB2B61B4A6A590069BACB /* AVFoundation.framework in Frameworks */,
+				EECA48B81C05898B00A89A19 /* Photos.framework in Frameworks */,
+				EEC122911C05594400DC1C4C /* AVKit.framework in Frameworks */,
+				EEC1228F1C05593D00DC1C4C /* AVFoundation.framework in Frameworks */,
 				F310F6D43A69EB2F89B045A6 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,6 +164,8 @@
 		EBC26224CF85D52B713049C3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EECA48B71C05898B00A89A19 /* Photos.framework */,
+				EEC122901C05594300DC1C4C /* AVKit.framework */,
 				EE0DB2B51B4A6A590069BACB /* AVFoundation.framework */,
 				7134B0C1ED7F550BAD6F8BF2 /* libPods.a */,
 			);
@@ -155,6 +177,7 @@
 			children = (
 				EE8C3BDA1B4E1AB000DDFDA3 /* README.md */,
 				EE07C2951B4A648500EB922C /* VideoPlayerDemo */,
+				EE4989D51BFEFC8500388F05 /* discard */,
 				EE07C2AF1B4A648500EB922C /* VideoPlayerDemoTests */,
 				EE07C2941B4A648500EB922C /* Products */,
 				D5F3B7B611BDEED7C405E5BE /* Pods */,
@@ -176,20 +199,10 @@
 			children = (
 				EE07C29A1B4A648500EB922C /* AppDelegate.h */,
 				EE07C29B1B4A648500EB922C /* AppDelegate.m */,
-				EE07C2BC1B4A65E400EB922C /* ListViewController.h */,
-				EE07C2BD1B4A65E400EB922C /* ListViewController.m */,
-				EE0DB2BA1B4A6BCA0069BACB /* DPlayerView.h */,
-				EE0DB2BB1B4A6BCA0069BACB /* DPlayerView.m */,
-				EE0DB2BD1B4A7C730069BACB /* DPlayerViewController.h */,
-				EE0DB2BE1B4A7C730069BACB /* DPlayerViewController.m */,
-				EEC5A5D21BB1635900014856 /* DPlayer2ViewController.h */,
-				EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */,
-				EE0DB2C41B4A859D0069BACB /* DPlayerLayerView.h */,
-				EE0DB2C51B4A859D0069BACB /* DPlayerLayerView.m */,
-				EE7871A21B4F634600210E2B /* CaptionViewController.h */,
-				EE7871A31B4F634600210E2B /* CaptionViewController.m */,
-				EE8C3BDC1B4E5E1B00DDFDA3 /* DUtility.h */,
-				EE8C3BDD1B4E5E1B00DDFDA3 /* DUtility.m */,
+				EE4989D91BFF011B00388F05 /* RootViewController.h */,
+				EE4989DA1BFF011B00388F05 /* RootViewController.m */,
+				EE93284F1BFF0871009FE2E5 /* after 8 */,
+				EE4989DC1BFF022100388F05 /* before 8 */,
 				EE07C2A01B4A648500EB922C /* Main.storyboard */,
 				EE07C2A31B4A648500EB922C /* Images.xcassets */,
 				EE07C2A51B4A648500EB922C /* LaunchScreen.xib */,
@@ -253,6 +266,49 @@
 				EE0DB2DB1B4B7B1F0069BACB /* VKVideoPlayer_zoom_out@2x.png */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		EE4989D51BFEFC8500388F05 /* discard */ = {
+			isa = PBXGroup;
+			children = (
+				EE0DB2BD1B4A7C730069BACB /* DPlayerViewController.h */,
+				EE0DB2BE1B4A7C730069BACB /* DPlayerViewController.m */,
+			);
+			name = discard;
+			path = VideoPlayerDemo;
+			sourceTree = "<group>";
+		};
+		EE4989DC1BFF022100388F05 /* before 8 */ = {
+			isa = PBXGroup;
+			children = (
+				EE07C2BC1B4A65E400EB922C /* ListViewController.h */,
+				EE07C2BD1B4A65E400EB922C /* ListViewController.m */,
+				EEC5A5D21BB1635900014856 /* DPlayer2ViewController.h */,
+				EEC5A5D31BB1635900014856 /* DPlayer2ViewController.m */,
+				EE0DB2BA1B4A6BCA0069BACB /* DPlayerView.h */,
+				EE0DB2BB1B4A6BCA0069BACB /* DPlayerView.m */,
+				EE0DB2C41B4A859D0069BACB /* DPlayerLayerView.h */,
+				EE0DB2C51B4A859D0069BACB /* DPlayerLayerView.m */,
+				EE7871A21B4F634600210E2B /* CaptionViewController.h */,
+				EE7871A31B4F634600210E2B /* CaptionViewController.m */,
+				EE8C3BDC1B4E5E1B00DDFDA3 /* DUtility.h */,
+				EE8C3BDD1B4E5E1B00DDFDA3 /* DUtility.m */,
+			);
+			name = "before 8";
+			sourceTree = "<group>";
+		};
+		EE93284F1BFF0871009FE2E5 /* after 8 */ = {
+			isa = PBXGroup;
+			children = (
+				EE60797B1C05A05D00C4AAA5 /* countdown_new.mov */,
+				EE4989DD1BFF023E00388F05 /* SecondListViewController.h */,
+				EE4989DE1BFF023E00388F05 /* SecondListViewController.m */,
+				EEC1228C1C0555C600DC1C4C /* SecondDetailViewController.h */,
+				EEC1228D1C0555C600DC1C4C /* SecondDetailViewController.m */,
+				EECA48B91C0589FE00A89A19 /* SecondListTableViewCell.h */,
+				EECA48BA1C0589FE00A89A19 /* SecondListTableViewCell.m */,
+			);
+			name = "after 8";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE0DB2F21B4BD67E0069BACB /* afterward.png in Resources */,
+				EE60797C1C05A05D00C4AAA5 /* countdown_new.mov in Resources */,
 				EE0DB2DD1B4B7B1F0069BACB /* VKVideoPlayer_close@2x.png in Resources */,
 				EE0DB2E11B4B7B1F0069BACB /* VKVideoPlayer_next@2x.png in Resources */,
 				EE0DB2DC1B4B7B1F0069BACB /* VKVideoPlayer_close.png in Resources */,
@@ -413,11 +470,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE07C29C1B4A648500EB922C /* AppDelegate.m in Sources */,
+				EEC1228E1C0555C600DC1C4C /* SecondDetailViewController.m in Sources */,
+				EECA48BB1C0589FE00A89A19 /* SecondListTableViewCell.m in Sources */,
 				EE07C2BE1B4A65E400EB922C /* ListViewController.m in Sources */,
 				EE0DB2C61B4A859D0069BACB /* DPlayerLayerView.m in Sources */,
 				EE8C3BDB1B4E1AB000DDFDA3 /* README.md in Sources */,
+				EE4989DB1BFF011B00388F05 /* RootViewController.m in Sources */,
 				EE7871A41B4F634600210E2B /* CaptionViewController.m in Sources */,
 				EE0DB2BC1B4A6BCA0069BACB /* DPlayerView.m in Sources */,
+				EE4989DF1BFF023E00388F05 /* SecondListViewController.m in Sources */,
 				EE8C3BDE1B4E5E1B00DDFDA3 /* DUtility.m in Sources */,
 				EE07C2991B4A648500EB922C /* main.m in Sources */,
 				EEC5A5D41BB1635900014856 /* DPlayer2ViewController.m in Sources */,
@@ -551,6 +612,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = VideoPlayerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Calios.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -563,6 +625,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = VideoPlayerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Calios.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

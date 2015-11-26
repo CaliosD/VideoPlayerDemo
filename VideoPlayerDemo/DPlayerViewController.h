@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DPlayerView.h"
 
+
 @interface DPlayerViewController : UIViewController
 
 @property (nonatomic, strong) AVPlayer     *player;

@@ -1,25 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Second Detail View Controller-->
+        <scene sceneID="31Q-Pu-6rZ">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SecondDetailViewController" autoresizesArchivedViewToFullSize="NO" id="gxe-jH-x3M" customClass="SecondDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="Agf-Ii-t4V"/>
+                        <viewControllerLayoutGuide type="bottom" id="T4o-KE-CjL"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="GAv-ko-cDy">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5OT-ce-3aw">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                                <connections>
+                                    <segue destination="nND-0Y-md5" kind="embed" id="wfA-fe-HSd"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5OT-ce-3aw" firstAttribute="width" secondItem="GAv-ko-cDy" secondAttribute="width" id="5Sa-kE-3af"/>
+                            <constraint firstItem="5OT-ce-3aw" firstAttribute="centerY" secondItem="GAv-ko-cDy" secondAttribute="centerY" id="BbP-G7-SsG"/>
+                            <constraint firstItem="5OT-ce-3aw" firstAttribute="centerX" secondItem="GAv-ko-cDy" secondAttribute="centerX" id="d07-GC-4sI"/>
+                            <constraint firstItem="5OT-ce-3aw" firstAttribute="height" secondItem="GAv-ko-cDy" secondAttribute="height" id="pel-BI-chd"/>
+                        </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RiT-Ic-yUT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="336" y="351"/>
+        </scene>
+        <!--AV Player View Controller-->
+        <scene sceneID="mj6-4J-dOO">
+            <objects>
+                <avPlayerViewController storyboardIdentifier="AVPlayerViewController" videoGravity="AVLayerVideoGravityResizeAspect" id="nND-0Y-md5" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ies-hU-buC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="994" y="351"/>
         </scene>
     </scenes>
 </document>
